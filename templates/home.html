@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Hero Section with background image -->
+<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light" style="background-image: url('https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg?auto=compress&cs=tinysrgb&w=1600'); background-size: cover; background-position: center;">
+    <div class="col-md-6 p-lg-5 mx-auto my-5 bg-white bg-opacity-75 rounded">
+        <h1 class="display-4 fw-bold">Premium Textiles</h1>
+        <p class="lead fw-normal">Discover the finest fabrics for your next masterpiece</p>
+        <a class="btn btn-outline-light btn-lg" href="#">Shop Now</a>
+    </div>
+</div>
+
+<!-- Featured Categories -->
+<div class="container my-5">
+    <h2 class="text-center mb-4">Shop by Category</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <img src="{% static 'images/cotton.jpg' %}" class="card-img-top" alt="Cotton fabrics" style="object-fit: cover; height: 250px;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Cotton</h5>
+                    <p class="card-text">Soft, breathable, perfect for summer.</p>
+                    <a href="#" class="btn btn-outline-primary">Explore</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <img src="{% static 'images/silk.jpg' %}" class="card-img-top" alt="Silk fabrics" style="object-fit: cover; height: 250px;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Silk</h5>
+                    <p class="card-text">Luxurious and elegant for special occasions.</p>
+                    <a href="#" class="btn btn-outline-primary">Explore</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <img src="{% static 'images/wool.webp' %}" class="card-img-top" alt="Wool fabrics" style="object-fit: cover; height: 250px;">
+                    <h5 class="card-title">Wool</h5>
+                    <p class="card-text">Warm and cozy for winter.</p>
+                    <a href="#" class="btn btn-outline-primary">Explore</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="bg-primary text-white text-center py-5 mt-4">
+    <div class="container">
+        <h3>Get 10% off your first order</h3>
+        <p>Sign up today and enjoy exclusive discounts on premium fabrics.</p>
+        {% if not user.is_authenticated %}
+            <a href="{% url 'register' %}" class="btn btn-light btn-lg">Register Now</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
