@@ -27,4 +27,12 @@ class Cart(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     total_price = models.FloatField()
-    address = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+
+    def get_total(self):
+        return self.product.price * self.quantity
