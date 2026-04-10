@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from .forms import CustomUserCreationForm
+from shop.models import Product
 
 def home(request):
     return render(request, 'home.html')
@@ -49,3 +50,7 @@ def user_logout(request):
 @login_required
 def profile(request):
     return render(request, 'profile.html')
+
+def product_detail(request, id):
+    product = Product.objects.get(id=id)
+    return render(request, 'product_detail.html', {'product': product})
