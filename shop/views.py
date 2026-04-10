@@ -19,6 +19,11 @@ def add_to_cart(request, product_id):
 
     return redirect('cart')
 
+def remove_from_cart(request, product_id):
+    user = User.objects.first()
+    Cart.objects.filter(user=user, product_id=product_id).delete()
+    return redirect('cart')
+
 def decrease_quantity(request, product_id):
     user = User.objects.first()
     cart_item = Cart.objects.get(user=user, product_id=product_id)
