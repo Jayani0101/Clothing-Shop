@@ -74,6 +74,31 @@
         body.dark-mode footer {
             background-color: #0f0f1f !important;
         }
+        /* Ripple effect for buttons */
+        .btn {
+            position: relative;
+            overflow: hidden;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .btn:active {
+            transform: scale(0.97);
+        }
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.5s linear;
+            pointer-events: none;
+            width: 10px;
+            height: 10px;
+        }
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -179,6 +204,26 @@
             localStorage.setItem('darkMode', 'disabled');
             toggle.innerHTML = '<i class="fas fa-moon"></i>';
         }
+    });
+</script>
+<!-- Ripple Effect Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('.btn');
+        console.log('Ripple script loaded. Found buttons:', buttons.length);
+        buttons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const ripple = document.createElement('span');
+                ripple.className = 'ripple';
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 500);
+            });
+        });
     });
 </script>
 </body>
