@@ -1,0 +1,5 @@
+path('cart/', views.cart_view, name='cart'),
+path('add/<int:product_id>/', views.add_to_cart, name='add_to_cart'),
+path('decrease/<int:product_id>/', views.decrease_quantity, name='decrease'),
+path('checkout/', views.checkout, name='checkout'),
+path('orders/', views.order_history, name='orders'),
