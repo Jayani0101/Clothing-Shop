@@ -46,7 +46,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    # "django.middleware.csrf.CsrfViewMiddleware",  # <-- COMMENTED OUT or REMOVED
+    # "django.middleware.csrf.CsrfViewMiddleware",  # Commented out for development
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -124,26 +124,17 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-# CSRF settings for Codespaces / localhost
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:8000',
-    'http://localhost:8001',
-    'https://localhost:8000',
-    'https://localhost:8001',
-    'https://*.github.dev',
-    'https://*.preview.app.github.dev',
-    'https://vigilant-robot-pjqqr6rp69p5f5x5-8001.app.github.dev/register/',
-]
+# CSRF settings for local development (CSRF middleware is commented out, so these are not used)
+#CSRF_TRUSTED_ORIGINS = [
+ #   'http://localhost:8000',
+  #  'http://localhost:8001',
+   # 'https://localhost:8000',
+    #'https://localhost:8001',
+#]
 
-# Relax CSRF and session cookie settings for development in Codespaces
-# Disable CSRF origin check completely for development
-CSRF_TRUSTED_ORIGINS = ['*']  # Not recommended but works for development
 CSRF_COOKIE_SECURE = False
 CSRF_COOKIE_SAMESITE = None
 SESSION_COOKIE_SECURE = False
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/6.0/ref/settings/#default-auto-field
-
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
