@@ -24,17 +24,36 @@
     </div>
 
     <div class="row g-4" id="product-grid">
-        <!-- Men's Fashion -->
-        <div class="col-md-4 product-card" data-category="mens">
-            <div class="card h-100 shadow-sm">
-                <img src="https://images.pexels.com/photos/842811/pexels-photo-842811.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop" class="card-img-top" alt="Men's T-Shirt & Jeans" style="object-fit: cover; height: 250px;">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Men's Collection</h5>
-                    <p class="card-text">T‑shirts, jeans, casual shirts – stylish & comfortable.</p>
-                    <a href="javascript:void(0);" class="btn btn-outline-primary">Explore</a>
+
+    {% if products %}
+
+        {% for product in products %}
+            <div class="col-md-4 product-card">
+                <div class="card h-100 shadow-sm">
+
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" class="card-img-top" style="height:250px; object-fit:cover;">
+                    {% else %}
+                        <img src="https://via.placeholder.com/300x250" class="card-img-top">
+                    {% endif %}
+
+                    <div class="card-body text-center">
+                        <h5>{{ product.name }}</h5>
+                        <p class="text-muted">Rs. {{ product.price }}</p>
+                        <a href="/product/{{ product.id }}" class="btn btn-primary btn-sm">
+                            View Details
+                        </a>
+                    </div>
+
                 </div>
             </div>
-        </div>
+        {% endfor %}
+
+    {% else %}
+        <p class="text-center">No products available</p>
+    {% endif %}
+
+</div>
         <!-- Women's Fashion -->
         <div class="col-md-4 product-card" data-category="womens">
             <div class="card h-100 shadow-sm">
