@@ -53,10 +53,16 @@
             {% endif %}
 
             <div class="card-body text-center">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">{{ product.description }}</p>
-                <a href="#" class="btn btn-outline-primary">Explore</a>
-            </div>
+    <h5>{{ product.name }}</h5>
+
+    <p class="text-muted">
+        Rs. {{ product.price }}
+    </p>
+
+    <a href="/product/{{ product.id }}" class="btn btn-primary btn-sm">
+        View Details
+    </a>
+</div>
 
         </div>
     </div>
