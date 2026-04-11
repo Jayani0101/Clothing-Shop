@@ -8,7 +8,8 @@ from .forms import CustomUserCreationForm
 from shop.models import Product
 
 def home(request):
-    return render(request, 'home.html')
+    products = Product.objects.all()  # fetch all products
+    return render(request, 'home.html', {'products': products})
 
 @csrf_exempt
 def register(request):

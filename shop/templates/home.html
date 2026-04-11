@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
-{% block content %}
 {% load static %}
 
-<!-- Hero Section - Full Width (breaks out of container) -->
-{% load static %}
+{% block content %}
+
+<!-- Hero Section - Full Width -->
 <style>
-    /* Force full viewport width, ignoring Bootstrap container */
     .hero-video {
         width: 100vw;
         position: relative;
@@ -143,63 +142,24 @@
         <button class="btn btn-outline-primary filter-btn" data-category="accessories">👟 Shoes & Accessories</button>
     </div>
 
-    <div class="row g-4" id="product-grid">
-
-    {% if products %}
-
-        {% for product in products %}
-            <div class="col-md-4 product-card">
-                <div class="card h-100 shadow-sm">
-
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" class="card-img-top" style="height:250px; object-fit:cover;">
-                    {% else %}
-                        <img src="https://via.placeholder.com/300x250" class="card-img-top">
-                    {% endif %}
-
-                    <div class="card-body text-center">
-                        <h5>{{ product.name }}</h5>
-                        <p class="text-muted">Rs. {{ product.price }}</p>
-                        <a href="/product/{{ product.id }}" class="btn btn-primary btn-sm">
-                            View Details
-                        </a>
-                    </div>
-
-                </div>
-            </div>
-        {% endfor %}
-
-    {% else %}
-        <p class="text-center">No products available</p>
-    {% endif %}
-
-</div>
-        <!-- Women's Fashion -->
-        <div class="col-md-4 product-card" data-category="womens">
-            <div class="card h-100 shadow-sm">
-                <img src="https://images.pexels.com/photos/7679563/pexels-photo-7679563.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop" class="card-img-top" alt="Women's Fashion" style="object-fit: cover; height: 250px;">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Women's Collection</h5>
-                    <p class="card-text">Trendy tops, jeans, dresses – for every occasion.</p>
-                    <a href="javascript:void(0);" class="btn btn-outline-primary">Explore</a>
-                </div>
-            </div>
-        </div>
-        <!-- Shoes & Accessories -->
-        <div class="col-md-4 product-card" data-category="accessories">
-            <div class="card h-100 shadow-sm">
-                <img src="https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop" class="card-img-top" alt="Shoes & Accessories" style="object-fit: cover; height: 250px;">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Shoes & Accessories</h5>
-                    <p class="card-text">Sneakers, belts, bags – complete your look.</p>
-                    <a href="javascript:void(0);" class="btn btn-outline-primary">Explore</a>
-                </div>
+   <div class="row g-4">
+    {% for product in products %}
+    <div class="col-md-4 product-card" data-category="{{ product.category.name|lower }}">
+        <div class="card h-100 shadow-sm">
+            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+            <div class="card-body text-center">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description|truncatewords:15 }}</p>
+                <p class="fw-bold">${{ product.price }}</p>
+                <a href="/product/{{ product.id }}/" class="btn btn-outline-primary">
+    Explore
+</a>
             </div>
         </div>
     </div>
+    {% endfor %}
 </div>
-
-<!-- Call to Action with continuous bump animation -->
+<!-- Call to Action -->
 <div class="bg-primary text-white text-center py-5 mt-4 call-to-action">
     <div class="container">
         <h3>Get 10% off your first order</h3>
@@ -211,19 +171,14 @@
 </div>
 
 <style>
-    /* Active filter button styling */
     .filter-btn.active {
         background-color: #0d6efd;
         color: white;
     }
-
-    /* Card initial style for animation */
     .product-card {
         animation: fadeSlideUp 0.6s ease-out forwards;
         transition: all 0.3s ease;
     }
-
-    /* Hover effect: lift and shadow */
     .product-card .card {
         transition: transform 0.3s, box-shadow 0.3s;
     }
@@ -231,49 +186,27 @@
         transform: translateY(-8px);
         box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
     }
-
-    /* Keyframes for fade and slide up */
     @keyframes fadeSlideUp {
-        0% {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        100% {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        0% { opacity: 0; transform: translateY(30px); }
+        100% { opacity: 1; transform: translateY(0); }
     }
-
-    /* Smooth filter transition */
     .product-card {
         transition: opacity 0.3s ease, transform 0.3s ease;
     }
-
-    /* Hover effect for filter buttons */
     .filter-btn {
         transition: all 0.2s;
     }
     .filter-btn:hover {
         transform: scale(1.05);
     }
-
-    /* Continuous bump/pulse animation for call-to-action */
     .call-to-action {
         animation: bump 1.5s ease-in-out infinite;
         transform-origin: center;
     }
-
     @keyframes bump {
-        0% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(1.03);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-        }
-        100% {
-            transform: scale(1);
-        }
+        0% { transform: scale(1); }
+        50% { transform: scale(1.03); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        100% { transform: scale(1); }
     }
 </style>
 
@@ -285,15 +218,11 @@
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
             const category = button.getAttribute('data-category');
-            
-            // Update active button style
             filterButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
-            
-            // Filter cards with fade effect
             productCards.forEach(card => {
                 if (category === 'all' || card.getAttribute('data-category') === category) {
-                    card.style.display = 'block';
+                    card.style.display = 'inline-block';
                     card.style.animation = 'fadeSlideUp 0.4s ease-out';
                 } else {
                     card.style.display = 'none';

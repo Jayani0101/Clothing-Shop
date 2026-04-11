@@ -1,5 +1,27 @@
-from django.shortcuts import render
-from .models import Product
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from .models import Category, Product
+from django.shortcuts import get_object_or_404
+
+def home(request):
+    categories = Category.objects.all()
+    products = Product.objects.all()
+    return render(request, 'home.html', {'categories': categories,'products': products})
+
+
+def category_products(request, id):
+    categories = Category.objects.all()
+    selected_category = get_object_or_404(Category, id=id)
+    products = Product.objects.filter(category=selected_category)
+
+    return render(request, 'home.html', {
+        'categories': categories,
+        'products': products,
+    })
+def product_list(request):
+    products = Product.objects.all()
+    return render(request, 'products.html', {'products': products})
+
 def product_detail(request, id):
     product = Product.objects.get(id=id)
     return render(request, 'product_detail.html', {'product': product})
