@@ -2,12 +2,115 @@
 {% block content %}
 {% load static %}
 
-<!-- Hero Section -->
-<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light" style="background-image: url('https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg?auto=compress&cs=tinysrgb&w=1600'); background-size: cover; background-position: center;">
-    <div class="col-md-6 p-lg-5 mx-auto my-5 bg-white bg-opacity-75 rounded">
-        <h1 class="display-4 fw-bold">Textile Shop</h1>
-        <p class="lead fw-normal">Jeans, Shoes, Accessories & T‑Shirts for Men & Women</p>
-        <a class="btn btn-outline-light btn-lg" href="#categories">Shop Now</a>
+<!-- Hero Section - Full Width (breaks out of container) -->
+{% load static %}
+<style>
+    /* Force full viewport width, ignoring Bootstrap container */
+    .hero-video {
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        height: 90vh;
+        min-height: 600px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+    }
+    .hero-video video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+    }
+    .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
+    }
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 20px;
+    }
+    .hero-content .content-box {
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(10px);
+        padding: 3rem 2rem;
+        border-radius: 30px;
+        width: 90%;
+        max-width: 1200px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        border: 1px solid rgba(255,255,255,0.4);
+        transition: transform 0.3s ease;
+    }
+    .hero-content .shop-name {
+        font-size: 4rem;
+        font-weight: 800;
+        letter-spacing: 3px;
+        color: white;
+        text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        margin-bottom: 0.5rem;
+    }
+    .hero-content .tagline {
+        font-size: 1.3rem;
+        color: white;
+        margin-bottom: 1.8rem;
+        font-weight: 500;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    }
+    .hero-content .btn-hero {
+        background: white;
+        color: #1a1a2e;
+        border: none;
+        padding: 12px 35px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .hero-content .btn-hero:hover {
+        background: #e67e22;
+        color: white;
+        transform: translateY(-3px);
+    }
+    @media (max-width: 768px) {
+        .hero-content .shop-name { font-size: 2rem; }
+        .hero-content .tagline { font-size: 1rem; }
+        .hero-content .content-box { width: 95%; padding: 2rem 1rem; }
+        .hero-video { min-height: 450px; }
+    }
+</style>
+
+<div class="hero-video">
+    <video autoplay muted loop playsinline>
+        <source src="{% static 'videos/hero-video.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="content-box">
+            <div class="shop-name">Textile Shop</div>
+            <p class="tagline">Jeans, Shoes, Accessories & T‑Shirts for Men & Women</p>
+            <a class="btn-hero" href="#categories">Shop Now →</a>
+        </div>
     </div>
 </div>
 
