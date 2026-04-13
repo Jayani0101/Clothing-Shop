@@ -13,7 +13,8 @@ class Product(models.Model):
     price = models.FloatField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.TextField(blank=True)
-
+    image = models.ImageField(upload_to='products/', blank=True, null=True)
+    stock = models.IntegerField(default=0)
     def __str__(self):
         return self.name
 
