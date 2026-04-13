@@ -124,7 +124,7 @@
             <a href="#" class="btn btn-warning btn-lg mt-2">Shop Latest →</a>
         </div>
         <div class="col-md-6 text-center">
-            <img src="https://images.pexels.com/photos/842811/pexels-photo-842811.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Latest Collection" class="img-fluid rounded-3" style="max-height: 300px; object-fit: cover;">
+             <img src="https://images.pexels.com/photos/842811/pexels-photo-842811.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Latest Collection" class="img-fluid rounded-3" style="max-height: 300px; object-fit: cover;">
         </div>
     </div>
 </div>
@@ -146,10 +146,10 @@
     {% for product in products %}
     <div class="col-md-4 product-card" data-category="{{ product.category.name|lower }}">
         <div class="card h-100 shadow-sm">
-           {% if product.image %}
+          {% if product.image %}
     <img src="{{ product.image.url }}" alt="{{ product.name }}">
-{% else %}
-    <img src="{% static 'images/no-image.png' %}" alt="No image">
+{% elif product.demo_image %}
+    <img src="{% static product.demo_image %}" alt="{{ product.name }}">
 {% endif %}
 
             <div class="card-body text-center">
