@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load humanize %}
 {% block content %}
 
 <!-- Hero Section - Full Width -->
@@ -146,11 +146,16 @@
     {% for product in products %}
     <div class="col-md-4 product-card" data-category="{{ product.category.name|lower }}">
         <div class="card h-100 shadow-sm">
-            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+           {% if product.image %}
+    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+{% else %}
+    <img src="{% static 'images/no-image.png' %}" alt="No image">
+{% endif %}
+
             <div class="card-body text-center">
                 <h5 class="card-title">{{ product.name }}</h5>
                 <p class="card-text">{{ product.description|truncatewords:15 }}</p>
-                <p class="fw-bold">${{ product.price }}</p>
+                 <p class="fw-bold">Rs. {{ product.price|floatformat:2|intcomma }}</p>
                 <a href="/product/{{ product.id }}/" class="btn btn-outline-primary">
     Explore
 </a>
