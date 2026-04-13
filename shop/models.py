@@ -14,6 +14,12 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to='products/', blank=True, null=True)
+    demo_image = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Static image path (e.g. images/demo/jacket.jpg)"
+    )
+
     stock = models.IntegerField(default=0)
     def __str__(self):
         return self.name
