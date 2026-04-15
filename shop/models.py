@@ -15,7 +15,7 @@ class Product(models.Model):
     price = models.FloatField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.TextField(blank=True)
-    #image = models.ImageField(upload_to='products/', blank=True, null=True)
+    image = models.ImageField(upload_to='products/', blank=True, null=True)
     # for local uploads (admin)
     image_filename = models.CharField(max_length=200, blank=True, null=True)      
     # for static file name (e.g., 'mens-jean.jpg')
