@@ -53,5 +53,10 @@ def profile(request):
     return render(request, 'profile.html')
 
 def product_detail(request, id):
-    product = Product.objects.get(id=id)
+    product = get_object_or_404(Product, id=id)
     return render(request, 'product_detail.html', {'product': product})
+
+def category_products(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    products = Product.objects.filter(category=category)
+    return render(request, 'category_products.html', {'category': category, 'products': products})
