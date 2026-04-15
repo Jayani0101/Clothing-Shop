@@ -134,36 +134,27 @@
 <div class="container my-5">
     <h2 id="categories" class="text-center mb-4">Shop by Category</h2>
     
-    <!-- Category Filter Buttons -->
-    <div class="text-center mb-4">
-        <button class="btn btn-outline-primary filter-btn" data-category="all">All</button>
-        <button class="btn btn-outline-primary filter-btn" data-category="mens">👕 Men's</button>
-        <button class="btn btn-outline-primary filter-btn" data-category="womens">👗 Women's</button>
-        <button class="btn btn-outline-primary filter-btn" data-category="accessories">👟 Shoes & Accessories</button>
-    </div>
-
-   <div class="row g-4">
-    {% for product in products %}
-    <div class="col-md-4 product-card" data-category="{{ product.category.name|lower }}">
-        <div class="card h-100 shadow-sm">
-          {% if product.image %}
-    <img src="{{ product.image.url }}" alt="{{ product.name }}">
-{% elif product.demo_image %}
-    <img src="{% static product.demo_image %}" alt="{{ product.name }}">
-{% endif %}
-
-            <div class="card-body text-center">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">{{ product.description|truncatewords:15 }}</p>
-                 <p class="fw-bold">Rs. {{ product.price|floatformat:2|intcomma }}</p>
-                <a href="/product/{{ product.id }}/" class="btn btn-outline-primary">
-    Explore
-</a>
+    <div class="row g-4">
+        {% if categories %}
+            {% for category in categories %}
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm category-card">
+                    <!-- Static image based on category slug (e.g., men.jpg, women.jpg, shoes-accessories.jpg) -->
+                    <img src="{% static 'images/categories/'|add:category.slug|add:'.jpg' %}" class="card-img-top" alt="{{ category.name }}" style="height: 250px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/400x250?text={{ category.name }}'">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ category.name }}</h5>
+                        <p class="card-text">Explore our {{ category.name|lower }} collection.</p>
+                        <a href="{% url 'category_products' category.slug %}" class="btn btn-outline-primary">Explore →</a>
+                    </div>
+                </div>
             </div>
-        </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center">No categories available. Please add some via admin.</p>
+        {% endif %}
     </div>
-    {% endfor %}
 </div>
+
 <!-- Call to Action -->
 <div class="bg-primary text-white text-center py-5 mt-4 call-to-action">
     <div class="container">
