@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Details</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row">
+
+        <!-- Product Image -->
+        <div class="col-md-6">
+            {% load static %}
+            {% if product.image_filename %}
+                <img src="{% static 'images/products/'|add:product.image_filename %}" class="img-fluid rounded" alt="{{ product.name }}">
+            {% elif product.image %}
+                <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
+            {% else %}
+                <img src="https://via.placeholder.com/400x400?text=No+Image" class="img-fluid rounded">
+            {% endif %}
+        </div>
+
+        <!-- Product Details -->
+        <div class="col-md-6">
+            <h2>{{ product.name }}</h2>
+
+            <p class="mt-3">
+                {{ product.description }}
+            </p>
+
+            <h3 class="text-success">
+                Rs. {{ product.price }}
+            </h3>
+
+             <!-- Temporary "Add to Cart" button (shows alert) -->
+            <button class="btn btn-success mt-3" onclick="alert('Cart feature coming soon!')">
+                Add to Cart
+            </button>
+	    <br>
+
+           <!-- Temporary "View Cart" link (shows alert) -->
+            <a href="javascript:void(0);" class="btn btn-dark mt-3" onclick="alert('Cart page coming soon!')">
+                 View Cart 🛒
+            </a>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

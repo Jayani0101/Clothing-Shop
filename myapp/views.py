@@ -1,14 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from .forms import CustomUserCreationForm
-from shop.models import Product
+from shop.models import Product, Category
 
 def home(request):
-    return render(request, 'home.html')
+    categories = Category.objects.all()  # fetch all categories
+    return render(request, 'home.html', {'categories': categories})
 
 @csrf_exempt
 def register(request):
@@ -52,5 +53,10 @@ def profile(request):
     return render(request, 'profile.html')
 
 def product_detail(request, id):
-    product = Product.objects.get(id=id)
+    product = get_object_or_404(Product, id=id)
     return render(request, 'product_detail.html', {'product': product})
+
+def category_products(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    products = Product.objects.filter(category=category)
+    return render(request, 'category_products.html', {'category': category, 'products': products})

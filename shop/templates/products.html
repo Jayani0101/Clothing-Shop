@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Products</title>
+</head>
+<body>
+{% load static %}
+<h2>Products</h2>
+
+{% for product in products %}
+  <div>
+
+    {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" width="150">
+    {% elif product.demo_image %}
+        <img src="{% static product.demo_image %}" alt="{{ product.name }}" width="150">
+    {% else %}
+        <img src="{% static 'images/placeholder.png' %}" alt="No image" width="150">
+    {% endif %}
+
+    <h3>{{ product.name }}</h3>
+    <p>Rs. {{ product.price }}</p>
+
+    <!-- View Details -->
+    <a href="/product/{{ product.id }}/">View Details</a>
+
+    <!-- Add to Cart -->
+    <a href="/add/{{ product.id }}/">Add to Cart</a>
+
+  </div>
+{% endfor %}
+<br>
+<a href="/cart/">Go to Cart</a>
+
+</body>
+</html>
