@@ -1,9 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.utils.text import slugify
 class Category(models.Model):
     name = models.CharField(max_length=100)
-
+    slug = models.SlugField(unique=True, blank=False, null=False)
+    image = models.ImageField(upload_to='categories/', blank=True, null=True)
+    
     def __str__(self):
         return self.name
 
@@ -13,14 +15,10 @@ class Product(models.Model):
     price = models.FloatField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to='products/', blank=True, null=True)
-    demo_image = models.CharField(
-        max_length=255,
-        blank=True,
-        help_text="Static image path (e.g. images/demo/jacket.jpg)"
-    )
-
-    stock = models.IntegerField(default=0)
+    #image = models.ImageField(upload_to='products/', blank=True, null=True)
+    # for local uploads (admin)
+    image_filename = models.CharField(max_length=200, blank=True, null=True)      
+    # for static file name (e.g., 'mens-jean.jpg')
     def __str__(self):
         return self.name
 
