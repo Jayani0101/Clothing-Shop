@@ -1,9 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Textile Shop</title>
+    <title>Lani & Co.</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome Icons -->
@@ -16,8 +17,11 @@
         }
         .navbar-brand {
             font-weight: bold;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: #8B4513 !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         .card-hover {
             transition: transform 0.2s, box-shadow 0.2s;
@@ -118,7 +122,10 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">🧵 TextileShop</a>
+        <a class="navbar-brand" href="{% url 'home' %}" style="color: white !important;">
+            <i class="fas fa-leaf" style="color: white !important;"></i>
+            <span style="font-family: 'Cursive', 'Brush Script MT', cursive; font-size: 1.8rem; color: white !important;">LAC</span>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -177,7 +184,7 @@
 <!-- Footer -->
 <footer class="text-center">
     <div class="container">
-        <p>&copy; 2025 Textile Shop - Premium Fabrics</p>
+        <p>&copy; 2025 Lani & Co. - Premium Fabrics</p>
     </div>
 </footer>
 
