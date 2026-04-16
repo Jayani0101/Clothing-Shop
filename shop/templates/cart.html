@@ -50,7 +50,7 @@
             <button onclick="showPaymentOptions()" class="checkout-btn">Proceed to Checkout</button>
             <a href="/" class="continue-shopping">Continue Shopping</a>
 	    <div id="payment-options" style="display:none; margin-top:20px;">
-        	<form method="POST" action="/place_order/">
+        	<form method="POST" action="{% url 'place_order' %}">
     {% csrf_token %}
 
     <h3>Select Payment Method</h3>
@@ -78,7 +78,7 @@
 </div>
 <script>
 function changeQty(productId, change){
-    fetch(`/update-cart/${productId}/${change}/`)
+    fetch(`/update_cart/${productId}/${change}/`)
     .then(res => res.json())
     .then(data => {
         const qtySpan = document.getElementById(`qty-${productId}`);
