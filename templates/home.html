@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
+{% load humanize %}
 
 <!-- Hero Section - Full Width (breaks out of container) -->
 {% load static %}
@@ -50,18 +51,19 @@
     .hero-content .content-box {
         background: rgba(255, 255, 255, 0.12);
         backdrop-filter: blur(10px);
-        padding: 3rem 2rem;
+        padding: 2rem 1.5rem;
         border-radius: 30px;
         width: 90%;
-        max-width: 1200px;
+        max-width: 550px;
         box-shadow: 0 15px 35px rgba(0,0,0,0.2);
         border: 1px solid rgba(255,255,255,0.4);
         transition: transform 0.3s ease;
     }
     .hero-content .shop-name {
-        font-size: 4rem;
+        font-size: 3rem;
         font-weight: 800;
-        letter-spacing: 3px;
+        font-family: 'Cursive', 'Brush Script MT', cursive;
+        letter-spacing: 2px;
         color: white;
         text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
         margin-bottom: 0.5rem;
@@ -69,7 +71,7 @@
     .hero-content .tagline {
         font-size: 1.3rem;
         color: white;
-        margin-bottom: 1.8rem;
+        margin-bottom: 1.5rem;
         font-weight: 500;
         text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
     }
@@ -77,10 +79,10 @@
         background: white;
         color: #1a1a2e;
         border: none;
-        padding: 12px 35px;
+        padding: 10px 30px;
         border-radius: 50px;
         font-weight: 700;
-        font-size: 1.1rem;
+        font-size: 1rem;
         text-decoration: none;
         display: inline-block;
         transition: all 0.3s;
@@ -91,10 +93,10 @@
         color: white;
         transform: translateY(-3px);
     }
-    @media (max-width: 768px) {
+   @media (max-width: 768px) {
         .hero-content .shop-name { font-size: 2rem; }
-        .hero-content .tagline { font-size: 1rem; }
-        .hero-content .content-box { width: 95%; padding: 2rem 1rem; }
+        .hero-content .tagline { font-size: 0.9rem; }
+        .hero-content .content-box { width: 95%; padding: 1.5rem; max-width: 400px; }
         .hero-video { min-height: 450px; }
     }
 </style>
@@ -107,7 +109,7 @@
     <div class="hero-overlay"></div>
     <div class="hero-content">
         <div class="content-box">
-            <div class="shop-name">Textile Shop</div>
+            <div class="shop-name">Lani & Co.</div>
             <p class="tagline">Jeans, Shoes, Accessories & T‑Shirts for Men & Women</p>
             <a class="btn-hero" href="#categories">Shop Now →</a>
         </div>
