@@ -78,7 +78,7 @@
 </div>
 <script>
 function changeQty(productId, change){
-    fetch(`/update_cart/${productId}/${change}/`)
+    fetch(`/shop/update-cart/${productId}/${change}/`)
     .then(res => res.json())
     .then(data => {
         const qtySpan = document.getElementById(`qty-${productId}`);
@@ -93,7 +93,7 @@ function changeQty(productId, change){
 }
 
 function removeItem(productId){
-    fetch(`/remove/${productId}/`)
+    fetch(`/shop/remove/${productId}/`)
     .then(() => {
         document.getElementById(`qty-${productId}`).closest('.cart-item').remove();
     })
