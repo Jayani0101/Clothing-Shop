@@ -3,7 +3,7 @@
 {% load humanize %}
 {% block content %}
 
-<!-- Hero Section - Full Width -->
+<!-- Hero Section - Full Width (smaller content box) -->
 <style>
     .hero-video {
         width: 100vw;
@@ -46,29 +46,32 @@
         text-align: center;
         padding: 0 20px;
     }
+    /* Smaller content box */
     .hero-content .content-box {
         background: rgba(255, 255, 255, 0.12);
         backdrop-filter: blur(10px);
-        padding: 3rem 2rem;
+        padding: 2rem 1.5rem;
         border-radius: 30px;
         width: 90%;
-        max-width: 1200px;
+        max-width: 550px;
         box-shadow: 0 15px 35px rgba(0,0,0,0.2);
         border: 1px solid rgba(255,255,255,0.4);
         transition: transform 0.3s ease;
     }
+    /* Cursive shop name in white */
     .hero-content .shop-name {
-        font-size: 4rem;
+        font-size: 3rem;
         font-weight: 800;
-        letter-spacing: 3px;
+        font-family: 'Cursive', 'Brush Script MT', cursive;
+        letter-spacing: 2px;
         color: white;
         text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
         margin-bottom: 0.5rem;
     }
     .hero-content .tagline {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
         color: white;
-        margin-bottom: 1.8rem;
+        margin-bottom: 1.5rem;
         font-weight: 500;
         text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
     }
@@ -76,10 +79,10 @@
         background: white;
         color: #1a1a2e;
         border: none;
-        padding: 12px 35px;
+        padding: 10px 30px;
         border-radius: 50px;
         font-weight: 700;
-        font-size: 1.1rem;
+        font-size: 1rem;
         text-decoration: none;
         display: inline-block;
         transition: all 0.3s;
@@ -92,8 +95,8 @@
     }
     @media (max-width: 768px) {
         .hero-content .shop-name { font-size: 2rem; }
-        .hero-content .tagline { font-size: 1rem; }
-        .hero-content .content-box { width: 95%; padding: 2rem 1rem; }
+        .hero-content .tagline { font-size: 0.9rem; }
+        .hero-content .content-box { width: 95%; padding: 1.5rem; max-width: 400px; }
         .hero-video { min-height: 450px; }
     }
 </style>
@@ -106,7 +109,8 @@
     <div class="hero-overlay"></div>
     <div class="hero-content">
         <div class="content-box">
-            <div class="shop-name">Textile Shop</div>
+            <!-- Cursive "Lani & Co." in white -->
+            <div class="shop-name">Lani & Co.</div>
             <p class="tagline">Jeans, Shoes, Accessories & T‑Shirts for Men & Women</p>
             <a class="btn-hero" href="#categories">Shop Now →</a>
         </div>
@@ -139,7 +143,6 @@
             {% for category in categories %}
             <div class="col-md-4">
                 <div class="card h-100 shadow-sm category-card">
-                    <!-- Static image based on category slug (e.g., men.jpg, women.jpg, shoes-accessories.jpg) -->
                     <img src="{% static 'images/categories/'|add:category.slug|add:'.jpg' %}" class="card-img-top" alt="{{ category.name }}" style="height: 250px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/400x250?text={{ category.name }}'">
                     <div class="card-body text-center">
                         <h5 class="card-title">{{ category.name }}</h5>
@@ -167,33 +170,17 @@
 </div>
 
 <style>
-    .filter-btn.active {
-        background-color: #0d6efd;
-        color: white;
-    }
-    .product-card {
-        animation: fadeSlideUp 0.6s ease-out forwards;
-        transition: all 0.3s ease;
-    }
-    .product-card .card {
+    .category-card {
         transition: transform 0.3s, box-shadow 0.3s;
+        animation: fadeSlideUp 0.6s ease-out forwards;
     }
-    .product-card:hover .card {
+    .category-card:hover {
         transform: translateY(-8px);
         box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
     }
     @keyframes fadeSlideUp {
         0% { opacity: 0; transform: translateY(30px); }
         100% { opacity: 1; transform: translateY(0); }
-    }
-    .product-card {
-        transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-    .filter-btn {
-        transition: all 0.2s;
-    }
-    .filter-btn:hover {
-        transform: scale(1.05);
     }
     .call-to-action {
         animation: bump 1.5s ease-in-out infinite;
@@ -207,10 +194,9 @@
 </style>
 
 <script>
-    // Category filter functionality with fade animation
+    // (Your existing category filter script – unchanged)
     const filterButtons = document.querySelectorAll('.filter-btn');
     const productCards = document.querySelectorAll('.product-card');
-
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
             const category = button.getAttribute('data-category');
