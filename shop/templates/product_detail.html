@@ -1,3 +1,4 @@
+{% load static %} 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -143,12 +144,17 @@
 
         <!-- Product Image -->
         <div class="col-md-6">
-            {% if product.image %}
-                <img src="{{ product.image.url }}" class="img-fluid rounded">
-            {% else %}
-                <img src="https://via.placeholder.com/400">
-            {% endif %}
-        </div>
+	    {% if product.image %}
+	        <!-- Media upload -->
+	        <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
+	    {% elif product.image_filename %}
+	        <!-- Static file reference -->
+	        <img src="{% static 'images/Products/' %}{{ product.image_filename }}" class="img-fluid rounded" alt="{{ product.name }}">
+	    {% else %}
+	        <!-- Fallback placeholder -->	
+	        <img src="{% static 'images/Products/placeholder.jpg' %}" class="img-fluid rounded" alt="No image">
+	    {% endif %}
+	</div>
 
         <!-- Product Details -->
         <div class="col-md-6">
@@ -180,7 +186,7 @@
 
         <br><br>
 
-        <a href="/cart/" class="btn btn-primary">
+        <a href="{% url 'cart' %}" class="btn btn-primary">
             Go to Cart
         </a>
 

@@ -17,7 +17,14 @@
         <div class="cart-items">
             {% for item in cart_items %}
             <div class="cart-item">
-                <img src="{{ item.product.image.url }}" class="item-img">
+                {% if item.product.image %}
+		    <img src="{{ item.product.image.url }}" class="item-img" alt="{{ item.product.name }}">
+		{% elif item.product.image_filename %}
+		    <img src="{% static 'images/Products/' %}{{ item.product.image_filename }}" class="item-img" alt="{{ item.product.name }}">
+		{% else %}
+		    <img src="{% static 'images/Products/placeholder.jpg' %}" class="item-img" alt="No image">
+		{% endif %}
+
                 <div class="item-details">
                     <p>{{ item.product.name }} </p>
                     <p>Price: Rs. {{ item.product.price }}</p>
