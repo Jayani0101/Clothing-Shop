@@ -1,46 +1,110 @@
-<h2>Cart</h2>
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cart</title>
+    <title>My Cart</title>
+    <link rel="stylesheet" href="{% static 'cart.css' %}">
 </head>
 <body>
+<div class="cart-container">
 
-<h2>My Cart</h2>
-
-{% if cart_items %}
-
-  {% for item in cart_items %}
-    <div style="border:1px solid black; padding:10px; margin:10px;">
-
-      <h3>{{ item.product.name }}</h3>
-
-      <p>Price: Rs. {{ item.product.price }}</p>
-      <p>Quantity: {{ item.quantity }}</p>
-
-      <!-- ITEM TOTAL -->
-      <p><strong>Total: Rs. {{ item.product.price|floatformat:2|add:"0" }}</strong></p>
-
-      <!-- BUTTONS -->
-      <a href="/add/{{ item.product.id }}/">+</a>
-      <a href="/decrease/{{ item.product.id }}/">-</a>
-      <a href="/remove/{{ item.product.id }}/">Remove</a>
-
+    <div class="promo-banner">
+        🎉 Limited-time offer: Free shipping on all orders!
     </div>
-  {% endfor %}
 
-  <h3>Cart Total: Rs. {{ total }}</h3>
+    <div class="cart-layout">
+        <!-- Left: Items -->
+        <div class="cart-items">
+            {% for item in cart_items %}
+            <div class="cart-item">
+                {% if item.product.image %}
+		    <img src="{{ item.product.image.url }}" class="item-img" alt="{{ item.product.name }}">
+		{% elif item.product.image_filename %}
+		    <img src="{% static 'images/Products/' %}{{ item.product.image_filename }}" class="item-img" alt="{{ item.product.name }}">
+		{% else %}
+		    <img src="{% static 'images/Products/placeholder.jpg' %}" class="item-img" alt="No image">
+		{% endif %}
 
-  <a href="/checkout/">Checkout</a>
+                <div class="item-details">
+                    <p>{{ item.product.name }} </p>
+                    <p>Price: Rs. {{ item.product.price }}</p>
+                    <p>Total: Rs. {{ item.total_price|floatformat:2 }}</p>
+                    <div class="qty-controls">
+    			<button onclick="changeQty({{ item.product.id }}, 1)" class="qty-btn">+</button>
+   			<span id="qty-{{ item.product.id }}" class="qty-display">{{ item.quantity }}</span>
+    			<button onclick="changeQty({{ item.product.id }}, -1)" class="qty-btn">-</button>
+    			<button onclick="removeItem({{ item.product.id }})" class="remove-btn">Remove</button>
+		    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
 
-{% else %}
+        <!-- Right: Summary -->
+        <div class="cart-summary">
+            <h2>Order Summary</h2>
+            <p>Subtotal: Rs. {{ total }}</p>
+	    <p>Discount: Rs. {{ discount }}</p>
+            <p><strong>Final Total: Rs. {{ final_total }}</strong></p>
 
-  <p>Your cart is empty </p>
+            <button onclick="showPaymentOptions()" class="checkout-btn">Proceed to Checkout</button>
+            <a href="/" class="continue-shopping">Continue Shopping</a>
+	    <div id="payment-options" style="display:none; margin-top:20px;">
+        	<form method="POST" action="{% url 'place_order' %}">
+    {% csrf_token %}
 
-{% endif %}
+    <h3>Select Payment Method</h3>
 
-<br><br>
-<a href="/">Continue Shopping</a>
+    <label>
+        <input type="radio" name="payment_method" value="Card" onclick="showPlaceOrder()"> Credit/Debit Card
+    </label><br>
 
+    <label>
+        <input type="radio" name="payment_method" value="COD" onclick="showPlaceOrder()"> Cash on Delivery
+    </label><br>
+
+    <label>
+        <input type="radio" name="payment_method" value="Wallet" onclick="showPlaceOrder()"> Mobile Wallet
+    </label><br><br>
+
+    <button type="submit" id="place-order-btn" class="checkout-btn" style="display:none;">
+        Place Order
+    </button>
+</form>
+    	    </div> 
+        </div>
+    </div>
+
+</div>
+<script>
+function changeQty(productId, change){
+    fetch(`/shop/update-cart/${productId}/${change}/`)
+    .then(res => res.json())
+    .then(data => {
+        const qtySpan = document.getElementById(`qty-${productId}`);
+        if(data.quantity <= 0){
+            // Optionally remove the item from DOM
+            qtySpan.closest('.cart-item').remove();
+        } else {
+            qtySpan.innerText = data.quantity;
+        }
+    })
+    .catch(err => console.log(err));
+}
+
+function removeItem(productId){
+    fetch(`/shop/remove/${productId}/`)
+    .then(() => {
+        document.getElementById(`qty-${productId}`).closest('.cart-item').remove();
+    })
+    .catch(err => console.log(err));
+}
+function showPaymentOptions(){
+    document.getElementById("payment-options").style.display = "block";
+}
+function showPlaceOrder(){
+    document.getElementById("place-order-btn").style.display = "block";
+}
+</script>
 </body>
 </html>

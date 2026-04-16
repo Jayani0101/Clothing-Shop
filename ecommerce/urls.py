@@ -23,7 +23,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include('myapp.urls')),     # <-- your UI and auth
-    #path('shop/', include('shop.urls')), # <-- Member 1's products (optional, but keep)
+    path('shop/', include('shop.urls')), # <-- Member 1's products (optional, but keep)
 ]
 
 if settings.DEBUG:
