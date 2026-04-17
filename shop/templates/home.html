@@ -71,14 +71,15 @@
             </div>
             <hr>
             <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link" href="#welcome">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="#categories">Shop by Category</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'latest_products' %}">Latest Arrivals</a></li>
-                <li class="nav-item"><a class="nav-link" href="#promo">Promotions</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Cart</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Orders</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                <li class="nav-item"><a class="nav-link" href="#welcome"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="#categories"><i class="fas fa-tags"></i> Shop by Category</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'latest_products' %}"><i class="fas fa-star"></i> Latest Arrivals</a></li>
+                <li class="nav-item"><a class="nav-link" href="#promo"><i class="fas fa-gift"></i> Promotions</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
+                <!-- Cart and Orders links now point to actual pages -->
+                <li class="nav-item"><a class="nav-link" href="{% url 'cart' %}"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'order_history' %}"><i class="fas fa-box"></i> Orders</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </div>
     </div>
@@ -124,7 +125,7 @@
 
         {% else %} {# No search query - show normal homepage content #}
 
-        <!-- Welcome Banner (only when show_banner is True) -->
+        <!-- Welcome Banner (only when not searching) -->
         {% if show_banner %}
         <div id="welcomeBanner" class="alert alert-success text-center" style="transition: opacity 0.5s;">
             {% if is_new_user %}
@@ -152,7 +153,8 @@
         <div class="mb-5">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h3 class="mb-0">🔥 Latest Arrivals</h3>
-                <a href="{% url 'latest_products' %}" class="btn btn-sm btn-outline-primary">View All →</a>   </div>
+                <a href="{% url 'latest_products' %}" class="btn btn-sm btn-outline-primary">View All →</a>
+            </div>
             <div class="scrollable-cards d-flex gap-3 overflow-auto pb-2">
                 {% for product in latest_products %}
                 <div class="card shadow-sm" style="min-width: 260px;">
@@ -207,7 +209,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Auto-hide welcome banner (only if it exists)
+        // Auto-hide welcome banner (only exists when not searching and show_banner is True)
         const welcomeBanner = document.getElementById('welcomeBanner');
         if (welcomeBanner) {
             var delay = {{ is_new_user|yesno:"2000,5000" }};
