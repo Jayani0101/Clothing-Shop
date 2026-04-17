@@ -1,110 +1,78 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Cart</title>
-    <link rel="stylesheet" href="{% static 'cart.css' %}">
-</head>
-<body>
-<div class="cart-container">
 
-    <div class="promo-banner">
-        🎉 Limited-time offer: Free shipping on all orders!
-    </div>
-
-    <div class="cart-layout">
-        <!-- Left: Items -->
-        <div class="cart-items">
-            {% for item in cart_items %}
-            <div class="cart-item">
-                {% if item.product.image %}
-		    <img src="{{ item.product.image.url }}" class="item-img" alt="{{ item.product.name }}">
-		{% elif item.product.image_filename %}
-		    <img src="{% static 'images/Products/' %}{{ item.product.image_filename }}" class="item-img" alt="{{ item.product.name }}">
-		{% else %}
-		    <img src="{% static 'images/Products/placeholder.jpg' %}" class="item-img" alt="No image">
-		{% endif %}
-
-                <div class="item-details">
-                    <p>{{ item.product.name }} </p>
-                    <p>Price: Rs. {{ item.product.price }}</p>
-                    <p>Total: Rs. {{ item.total_price|floatformat:2 }}</p>
-                    <div class="qty-controls">
-    			<button onclick="changeQty({{ item.product.id }}, 1)" class="qty-btn">+</button>
-   			<span id="qty-{{ item.product.id }}" class="qty-display">{{ item.quantity }}</span>
-    			<button onclick="changeQty({{ item.product.id }}, -1)" class="qty-btn">-</button>
-    			<button onclick="removeItem({{ item.product.id }})" class="remove-btn">Remove</button>
-		    </div>
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4">Your Shopping Cart</h2>
+    {% if cart_items %}
+        <div class="row">
+            <div class="col-md-8">
+                {% for item in cart_items %}
+                <div class="card mb-3 shadow-sm" id="cart-item-{{ item.product.id }}">
+                    <div class="row g-0">
+                        <div class="col-md-3">
+                            {% if item.product.image_filename %}
+                                <img src="{% static 'images/products/'|add:item.product.image_filename %}" class="img-fluid rounded-start" style="height: 150px; object-fit: cover;">
+                            {% elif item.product.image %}
+                                <img src="{{ item.product.image.url }}" class="img-fluid rounded-start" style="height: 150px; object-fit: cover;">
+                            {% else %}
+                                <img src="https://via.placeholder.com/150" class="img-fluid rounded-start">
+                            {% endif %}
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item.product.name }}</h5>
+                                <p class="card-text">Price: Rs. {{ item.product.price }}</p>
+                                <p class="card-text">Quantity:
+                                    <button class="btn btn-sm btn-outline-secondary" onclick="updateQty({{ item.product.id }}, -1)">-</button>
+                                    <span id="qty-{{ item.product.id }}" class="mx-2">{{ item.quantity }}</span>
+                                    <button class="btn btn-sm btn-outline-secondary" onclick="updateQty({{ item.product.id }}, 1)">+</button>
+                                </p>
+                                <p class="card-text fw-bold">Total: Rs. {{ item.total_price|floatformat:2 }}</p>
+                                <button class="btn btn-danger btn-sm" onclick="removeItem({{ item.product.id }})">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Order Summary</h5>
+                        <p>Subtotal: Rs. {{ total|floatformat:2 }}</p>
+                        <p>Discount: Rs. {{ discount|floatformat:2 }}</p>
+                        <h6>Final Total: Rs. {{ final_total|floatformat:2 }}</h6>
+                        <a href="{% url 'checkout' %}" class="btn btn-primary w-100 mt-3">Proceed to Checkout</a>
+                        <a href="/" class="btn btn-outline-secondary w-100 mt-2">Continue Shopping</a>
+                    </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
-
-        <!-- Right: Summary -->
-        <div class="cart-summary">
-            <h2>Order Summary</h2>
-            <p>Subtotal: Rs. {{ total }}</p>
-	    <p>Discount: Rs. {{ discount }}</p>
-            <p><strong>Final Total: Rs. {{ final_total }}</strong></p>
-
-            <button onclick="showPaymentOptions()" class="checkout-btn">Proceed to Checkout</button>
-            <a href="/" class="continue-shopping">Continue Shopping</a>
-	    <div id="payment-options" style="display:none; margin-top:20px;">
-        	<form method="POST" action="{% url 'place_order' %}">
-    {% csrf_token %}
-
-    <h3>Select Payment Method</h3>
-
-    <label>
-        <input type="radio" name="payment_method" value="Card" onclick="showPlaceOrder()"> Credit/Debit Card
-    </label><br>
-
-    <label>
-        <input type="radio" name="payment_method" value="COD" onclick="showPlaceOrder()"> Cash on Delivery
-    </label><br>
-
-    <label>
-        <input type="radio" name="payment_method" value="Wallet" onclick="showPlaceOrder()"> Mobile Wallet
-    </label><br><br>
-
-    <button type="submit" id="place-order-btn" class="checkout-btn" style="display:none;">
-        Place Order
-    </button>
-</form>
-    	    </div> 
-        </div>
-    </div>
-
+    {% else %}
+        <p class="text-center">Your cart is empty. <a href="/">Continue shopping</a></p>
+    {% endif %}
 </div>
-<script>
-function changeQty(productId, change){
-    fetch(`/shop/update-cart/${productId}/${change}/`)
-    .then(res => res.json())
-    .then(data => {
-        const qtySpan = document.getElementById(`qty-${productId}`);
-        if(data.quantity <= 0){
-            // Optionally remove the item from DOM
-            qtySpan.closest('.cart-item').remove();
-        } else {
-            qtySpan.innerText = data.quantity;
-        }
-    })
-    .catch(err => console.log(err));
-}
 
-function removeItem(productId){
+<script>
+function updateQty(productId, change) {
+    fetch(`/shop/update-cart/${productId}/${change}/`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.quantity <= 0) {
+                document.getElementById(`cart-item-${productId}`).remove();
+                if (document.querySelectorAll('.cart-item').length === 0) location.reload();
+            } else {
+                document.getElementById(`qty-${productId}`).innerText = data.quantity;
+                location.reload();  // refresh to update totals (simplest)
+            }
+        })
+        .catch(err => console.log(err));
+}
+function removeItem(productId) {
     fetch(`/shop/remove/${productId}/`)
-    .then(() => {
-        document.getElementById(`qty-${productId}`).closest('.cart-item').remove();
-    })
-    .catch(err => console.log(err));
-}
-function showPaymentOptions(){
-    document.getElementById("payment-options").style.display = "block";
-}
-function showPlaceOrder(){
-    document.getElementById("place-order-btn").style.display = "block";
+        .then(() => location.reload())
+        .catch(err => console.log(err));
 }
 </script>
-</body>
-</html>
+{% endblock %}
