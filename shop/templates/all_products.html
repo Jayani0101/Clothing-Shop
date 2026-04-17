@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4">All Products</h2>
+
+    <!-- Category filter form -->
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-3">
+            <label for="category" class="form-label">Category</label>
+            <select name="category" id="category" class="form-select">
+                <option value="">All</option>
+                {% for cat in categories %}
+                    <option value="{{ cat.slug }}" {% if request.GET.category == cat.slug %}selected{% endif %}>{{ cat.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3 align-self-end">
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a href="{% url 'all_products' %}" class="btn btn-secondary">Reset</a>
+        </div>
+    </form>
+
+    <!-- Product grid -->
+    <div class="row g-4">
+        {% for product in products %}
+        <div class="col-md-3">
+            <div class="card h-100 shadow-sm">
+                <!-- Use static image if image_filename exists, otherwise fallback -->
+                {% if product.image_filename %}
+                    <img src="{% static 'images/products/'|add:product.image_filename %}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="{{ product.name }}">
+                {% elif product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="{{ product.name }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text text-primary fw-bold">Rs. {{ product.price }}</p>
+                    <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">No products available.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

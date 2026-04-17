@@ -2,35 +2,34 @@
 <html>
 <head>
     <title>Products</title>
+    {% load static %}
 </head>
 <body>
-{% load static %}
-<h2>Products</h2>
+    <h2>Products</h2>
 
-{% for product in products %}
-  <div>
+    {% for product in products %}
+    <div>
+        <!-- Image: priority: product.image (admin upload) -> product.image_filename (static) -> placeholder -->
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" width="150">
+        {% elif product.image_filename %}
+            <img src="{% static 'images/products/'|add:product.image_filename %}" alt="{{ product.name }}" width="150">
+        {% else %}
+            <img src="{% static 'images/placeholder.png' %}" alt="No image" width="150">
+        {% endif %}
 
-    {% if product.image %}
-        <img src="{{ product.image.url }}" alt="{{ product.name }}" width="150">
-    {% elif product.image_filename %}
-        <img src="{% static 'images/Products/' %}{{ product.image_filename }}" alt="{{ product.name }}" width="150">
-    {% else %}
-        <img src="{% static 'images/Products/placeholder.jpg' %}" alt="No image" width="150">
-    {% endif %}
+        <h3>{{ product.name }}</h3>
+        <p>Rs. {{ product.price }}</p>
 
-    <h3>{{ product.name }}</h3>
-    <p>Rs. {{ product.price }}</p>
+        <!-- View Details -->
+        <a href="/product/{{ product.id }}/">View Details</a>
 
-    <!-- View Details -->
-    <a href="/product/{{ product.id }}/">View Details</a>
-
-    <!-- Add to Cart -->
-    <a href="/add/{{ product.id }}/">Add to Cart</a>
-
-  </div>
-{% endfor %}
-<br>
-<a href="{% url 'cart' %}" class="btn btn-primary">Go to Cart</a>
-
+        <!-- Add to Cart (Member 2's link) -->
+        <a href="/add/{{ product.id }}/">Add to Cart</a>
+    </div>
+    {% endfor %}
+    <br>
+    <!-- Cart page link – uses URL tag if named 'cart' exists, otherwise fallback to hardcoded /cart/ -->
+    <a href="{% url 'cart' %}">Go to Cart</a>
 </body>
 </html>

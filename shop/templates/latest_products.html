@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4">Latest Arrivals</h2>
+    <div class="row g-4">
+        {% for product in products %}
+        <div class="col-md-3">
+            <div class="card h-100 shadow-sm">
+                {% if product.image_filename %}
+                    <img src="{% static 'images/products/'|add:product.image_filename %}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                {% elif product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                {% else %}
+                    <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text text-primary fw-bold">Rs. {{ product.price }}</p>
+                    <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
+                    <button class="btn favorite-btn {% if product.id in favorited_ids %}btn-danger{% else %}btn-outline-danger{% endif %}" data-product-id="{{ product.id }}">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">No latest products available.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.favorite-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const productId = this.dataset.productId;
+            fetch("{% url 'toggle_favorite' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `product_id=${productId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.is_favorited) {
+                    btn.classList.remove('btn-outline-danger');
+                    btn.classList.add('btn-danger');
+                } else {
+                    btn.classList.remove('btn-danger');
+                    btn.classList.add('btn-outline-danger');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

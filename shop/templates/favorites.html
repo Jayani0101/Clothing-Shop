@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4">Your Favorites</h2>
+    <div class="row g-4" id="favorites-grid">
+        {% for product in products %}
+        <div class="col-md-3" id="product-card-{{ product.id }}">
+            <div class="card h-100 shadow-sm">
+                {% if product.image_filename %}
+                    <img src="{% static 'images/products/'|add:product.image_filename %}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                {% elif product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                {% else %}
+                    <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text text-primary fw-bold">Rs. {{ product.price }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
+                        <i class="fas fa-heart text-danger remove-favorite-icon" style="cursor: pointer; font-size: 1.2rem;" data-product-id="{{ product.id }}" title="Remove from favorites"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">You haven't added any favorites yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.remove-favorite-icon').forEach(icon => {
+        icon.addEventListener('click', function(e) {
+            e.preventDefault();
+            const productId = this.dataset.productId;
+            fetch("{% url 'toggle_favorite' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `product_id=${productId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.is_favorited) {
+                    const card = document.getElementById(`product-card-${productId}`);
+                    if (card) card.remove();
+                    const remainingCards = document.querySelectorAll('#favorites-grid .col-md-3').length;
+                    if (remainingCards === 0) {
+                        const grid = document.getElementById('favorites-grid');
+                        grid.innerHTML = '<p class="text-center">You haven\'t added any favorites yet.</p>';
+                    }
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+</script>
+{% endblock %}
