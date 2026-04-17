@@ -1,24 +1,26 @@
 from django.contrib import admin
-from .models import Category, Product, Cart, Order
+from .models import Category, Product, Cart, Order, OrderItem
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-
+    list_display = ('name', 'slug')
+    prepopulated_fields = {'slug': ('name',)}
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'category')
-    list_filter = ('category',)
+    list_display = ('name', 'price', 'category', 'is_latest')
+    list_filter = ('category', 'is_latest')
     search_fields = ('name',)
-    readonly_fields = ('image_preview',)
+    list_editable = ('is_latest',)   # allows you to toggle from the list view
 
-    def image_preview(self, obj):
-        if obj.image:
-            return f'<img src="{obj.image.url}" width="100" />'
-        return "No Image"
-    image_preview.allow_tags = True
-    image_preview.short_description = 'Image Preview'
+@admin.register(Cart)
+class CartAdmin(admin.ModelAdmin):
+    list_display = ('user', 'product', 'quantity')
 
-admin.site.register(Cart)
-admin.site.register(Order)
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('user', 'total_price', 'created_at')
+
+@admin.register(OrderItem)
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ('order', 'product', 'quantity')
