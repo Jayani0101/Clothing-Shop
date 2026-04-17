@@ -1,236 +1,178 @@
-{% load static %} 
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Product Details</title>
-
+    <title>Product Details - Lani & Co.</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-	body {
-	    background: linear-gradient(135deg, #f5f7fa, #ffffff);
-	    font-family: 'Segoe UI', sans-serif;
-	}
-
-	/* Main product container feel */
-	.container {
-	    max-width: 1100px;
-	}
-
-	/* Image styling */
-	img.img-fluid {
-	    border-radius: 18px;
-	    box-shadow: 0 10px 30px rgba(0,0,0,0.10);
-	    transition: transform 0.3s ease, box-shadow 0.3s ease;
-	}
-
-	img.img-fluid:hover {
-	    transform: scale(1.03);
-	    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-	}
-
-	/* Product title */
-	h2 {
-	    font-size: 30px;
-	    font-weight: 700;
-	    color: #1f2937;	
-	    margin-bottom: 10px;
-	}	
-
-	/* Description */
-	p {
-	    color: #6b7280;
-	    font-size: 15px;
-	    line-height: 1.6;
-	}
-
-	/* Price styling */
-	h3.text-success {
-	    font-size: 26px;
-	    font-weight: 700;
-	    background: linear-gradient(90deg, #16a34a, #22c55e);	
-	    -webkit-background-clip: text;
-	    -webkit-text-fill-color: transparent;
-	    margin-top: 15px;
-	}
-
-	/* Add to Cart button */
-	#addBtn {
-	    padding: 12px 22px;
-	    border-radius: 12px;
-	    font-weight: 600;
-	    background: linear-gradient(135deg, #16a34a, #22c55e);
-	    border: none;
-	    transition: all 0.3s ease;	
-	    box-shadow: 0 6px 15px rgba(34,197,94,0.2);
-	}
-
-	#addBtn:hover {
-	    transform: translateY(-2px);
-	    box-shadow: 0 10px 25px rgba(34,197,94,0.3);
-	}
-
-	/* Quantity box */
-	#qtyBox {
-	    margin-top: 15px;
-	    padding: 15px;	
-	    border-radius: 14px;
-	    background: #ffffff;
-	    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-	    display: inline-flex;
-	    align-items: center;
-	    gap: 10px;
-	}
-
-	/* Quantity buttons */
-	#qtyBox button {
-	    border: none;
-	    background: #f3f4f6;
-	    padding: 8px 14px;
-	    border-radius: 10px;
-	    font-weight: bold;
-	    transition: 0.2s;
-	}
-
-	#qtyBox button:hover {
-	    background: #e5e7eb;
-	}
-
-	/* Quantity number */
-	#qty {
-	    font-size: 18px;
-	    font-weight: bold;
-	}
-
-	/* Go to cart button */
-	#qtyBox a {
-	    padding: 10px 14px;
-	    border-radius: 10px;
-	    background: #2563eb;
-	    color: white;
-	    text-decoration: none;
-	    font-weight: 600;
-	    transition: 0.3s;
-	}
-
-	#qtyBox a:hover {
-	    background: #1d4ed8;
-	}
-
-	/* Back button */
-	a.btn-dark {
-	   border-radius: 10px;
-	   padding: 10px 16px;
- 	   font-weight: 500;
-	   transition: 0.3s;
-	}
-
-	a.btn-dark:hover {
-	    background: #111;
-	    transform: translateY(-2px);
-	}
-
-	/* Smooth spacing */
-	.row {
-	    align-items: center;
-	}
-   </style>
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa, #ffffff);
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .container {
+            max-width: 1100px;
+        }
+        img.img-fluid {
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.10);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        img.img-fluid:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        h2 {
+            font-size: 30px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #6b7280;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        h3.text-success {
+            font-size: 26px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #16a34a, #22c55e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 15px;
+        }
+        #addBtn {
+            padding: 12px 22px;
+            border-radius: 12px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(34,197,94,0.2);
+        }
+        #addBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(34,197,94,0.3);
+        }
+        #qtyBox {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 14px;
+            background: #ffffff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #qtyBox button {
+            border: none;
+            background: #f3f4f6;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        #qtyBox button:hover {
+            background: #e5e7eb;
+        }
+        #qty {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        #qtyBox a {
+            padding: 10px 14px;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        #qtyBox a:hover {
+            background: #1d4ed8;
+        }
+        a.btn-dark {
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        a.btn-dark:hover {
+            background: #111;
+            transform: translateY(-2px);
+        }
+        .row {
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
 
 <div class="container mt-5">
     <div class="row">
-
-        <!-- Product Image -->
+        <!-- Product Image (Member 3's static-first logic) -->
         <div class="col-md-6">
-	    {% if product.image %}
-	        <!-- Media upload -->
-	        <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
-	    {% elif product.image_filename %}
-	        <!-- Static file reference -->
-	        <img src="{% static 'images/Products/' %}{{ product.image_filename }}" class="img-fluid rounded" alt="{{ product.name }}">
-	    {% else %}
-	        <!-- Fallback placeholder -->	
-	        <img src="{% static 'images/Products/placeholder.jpg' %}" class="img-fluid rounded" alt="No image">
-	    {% endif %}
-	</div>
+            {% if product.image_filename %}
+                <img src="{% static 'images/products/'|add:product.image_filename %}" class="img-fluid rounded" alt="{{ product.name }}">
+            {% elif product.image %}
+                <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
+            {% else %}
+                <img src="https://via.placeholder.com/400x400?text=No+Image" class="img-fluid rounded">
+            {% endif %}
+        </div>
 
         <!-- Product Details -->
         <div class="col-md-6">
             <h2>{{ product.name }}</h2>
+            <p class="mt-3">{{ product.description }}</p>
+            <h3 class="text-success">Rs. {{ product.price }}</h3>
 
-            <p class="mt-3">
-                {{ product.description }}
-            </p>
-
-            <h3 class="text-success">
-                Rs. {{ product.price }}
-            </h3>
-
+            <!-- Cart section (Member 2's AJAX cart) -->
             <div class="mt-3" id="cart-section">
-
-    <!-- Add Button -->
-    <button id="addBtn" onclick="addToCart({{ product.id }})" class="btn btn-success">
-        Add to Cart
-    </button>
-
-    <!-- Quantity Box (Hidden Initially) -->
-    <div id="qtyBox" style="display:none;" class="mt-3">
-
-        <button class="btn btn-outline-dark" onclick="changeQty(-1)">-</button>
-
-        <span id="qty" class="mx-3 fw-bold">1</span>
-
-        <button class="btn btn-outline-dark" onclick="changeQty(1)">+</button>
-
-        <br><br>
-
-        <a href="{% url 'cart' %}" class="btn btn-primary">
-            Go to Cart
-        </a>
-
-    </div>
-
-</div>
-	    <br>
-
-            <a href="/" class="btn btn-dark mt-3">
-                 Back
-            </a>
+                <button id="addBtn" onclick="addToCart({{ product.id }})" class="btn btn-success">Add to Cart</button>
+                <div id="qtyBox" style="display:none;" class="mt-3">
+                    <button class="btn btn-outline-dark" onclick="changeQty(-1)">-</button>
+                    <span id="qty" class="mx-3 fw-bold">1</span>
+                    <button class="btn btn-outline-dark" onclick="changeQty(1)">+</button>
+                    <br><br>
+                    <a href="{% url 'cart' %}" class="btn btn-primary">Go to Cart</a>
+                </div>
+            </div>
+            <br>
+            <a href="/" class="btn btn-dark mt-3">Back</a>
         </div>
-
     </div>
 </div>
 
 <script>
-let productId = {{ product.id }};
+    let productId = {{ product.id }};
 
-function addToCart(id){
-    fetch("/shop/add/" + id + "/")
-    .then(res => res.json())
-    .then(data => {
+    function addToCart(id) {
+        fetch(`/shop/add/${id}/`)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("addBtn").style.display = "none";
+                document.getElementById("qtyBox").style.display = "block";
+                document.getElementById("qty").innerText = data.quantity;
+            })
+            .catch(err => console.log(err));
+    }
 
-        document.getElementById("addBtn").style.display = "none";
-        document.getElementById("qtyBox").style.display = "block";
-        document.getElementById("qty").innerText = data.quantity;
-    })
-    .catch(err => console.log(err));
-}
-
-function changeQty(change){
-    fetch("{% url 'update_cart' product.id 1 %}".replace("1", change))
-    .then(res => res.json())
-    .then(data => {
-        if(data.quantity <= 0){
-            document.getElementById("qtyBox").style.display = "none";
-            document.getElementById("addBtn").style.display = "block";
-        } else {
-            document.getElementById("qty").innerText = data.quantity;
-        }
-    })
-    .catch(err => console.log(err));
-}
+    function changeQty(change) {
+        fetch(`/shop/update-cart/${productId}/${change}/`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.quantity <= 0) {
+                    document.getElementById("qtyBox").style.display = "none";
+                    document.getElementById("addBtn").style.display = "block";
+                } else {
+                    document.getElementById("qty").innerText = data.quantity;
+                }
+            })
+            .catch(err => console.log(err));
+    }
 </script>
+
 </body>
 </html>
