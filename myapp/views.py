@@ -124,12 +124,16 @@ def all_products(request):
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         products = products.filter(category=category)
+    search_query = request.GET.get('q', '')
+    if search_query:
+        products = products.filter(name__icontains=search_query)
     favorited_ids = []
     if request.user.is_authenticated:
         favorited_ids = request.user.favorite_set.values_list('product_id', flat=True)
     return render(request, 'all_products.html', {
         'products': products,
         'categories': Category.objects.all(),
+        'search_query': search_query,
         'favorited_ids': favorited_ids,
     })
 
